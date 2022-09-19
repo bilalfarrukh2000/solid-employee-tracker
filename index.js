@@ -190,6 +190,145 @@ function employeeUpdate () {
       
   }
 
+function addEmployee(){
+  var roles=[];
+  var MANAGERS_ID=[];
+  var MANAGERS_NAMES=[];
+
+ connect.query("SELECT title FROM role", function (err, result){
+    if (err) throw err;
+      for (var i=0;i<result.length;i++){
+        roles.push(result[i].title);
+        }
+    })
+
+ connect.query("SELECT first_name, last_name, role_id FROM employee", function (err, result) {
+ 
+    for (var i=0;i<result.length;i++){
+    MANAGERS_ID.push(result[i].role_id);
+    MANAGERS_NAMES.push(result[i].first_name+" "+result[i].last_name);
+    }
+  });
+
+  const questionsAddEmployee=[
+    {
+      type: 'input',
+      name: 'firstName',
+      message: "Enter the first name of the employee",
+    },
+    {
+      type: 'input',
+      name: 'lastName',
+      message: "Enter the last name of the employee",
+    },
+    {
+      type: 'list',
+      name: 'role',
+      message: "Enter the role of the employee",
+      choices: roles
+    },
+    {
+      type: 'list',
+      name: 'manager',
+      message: "Enter the name of the manager",
+      choices: MANAGERS_NAMES
+    },
+  ];
+  
+  return inquirer.prompt(questionsAddEmployee).then((answers) => {
+
+  managerIndex=MANAGERS_NAMES.indexOf(answers.manager);
+  managerID=MANAGERS_ID[managerIndex];
+  
+
+ connect.promise().query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('${answers.firstName}','${answers.lastName}','${roles.indexOf(answers.role)+1}','${managerID}')`)
+  .then(([rows,fields]) => {
+    console.log("Added successfully");
+  })
+  .then(showAnswers);
+  }
+)}
+
+function addDepartment(){
+  const questionsAddDepartment=[
+    {
+      type: 'input',
+      name: 'deptName',
+      message: "Enter the name of the department",
+    },
+  ];
+  return inquirer.prompt(questionsAddDepartment).then((answers) => {
+
+ connect.promise().query(`INSERT INTO department (name) VALUES ('${answers.deptName}')`)
+  .then(([rows,fields]) => {
+    console.log("Added successfully");
+  })
+  .then(showAnswers);
+  }
+)}
+
+
+function addEmployee(){
+  var roles=[];
+  var MANAGERS_ID=[];
+  var MANAGERS_NAMES=[];
+
+ connect.query("SELECT title FROM role", function (err, result){
+    if (err) throw err;
+      for (var i=0;i<result.length;i++){
+        roles.push(result[i].title);
+        }
+    })
+
+ connect.query("SELECT first_name, last_name, role_id FROM employee", function (err, result) {
+ 
+    for (var i=0;i<result.length;i++){
+    MANAGERS_ID.push(result[i].role_id);
+    MANAGERS_NAMES.push(result[i].first_name+" "+result[i].last_name);
+    }
+  });
+
+  const questionsAddEmployee=[
+    {
+      type: 'input',
+      name: 'firstName',
+      message: "Enter the first name of the employee",
+    },
+    {
+      type: 'input',
+      name: 'lastName',
+      message: "Enter the last name of the employee",
+    },
+    {
+      type: 'list',
+      name: 'role',
+      message: "Enter the role of the employee",
+      choices: roles
+    },
+    {
+      type: 'list',
+      name: 'manager',
+      message: "Enter the name of the manager",
+      choices: MANAGERS_NAMES
+    },
+  ];
+  
+  return inquirer.prompt(questionsAddEmployee).then((answers) => {
+
+  managerIndex=MANAGERS_NAMES.indexOf(answers.manager);
+  managerID=MANAGERS_ID[managerIndex];
+  
+
+ connect.promise().query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('${answers.firstName}','${answers.lastName}','${roles.indexOf(answers.role)+1}','${managerID}')`)
+  .then(([rows,fields]) => {
+    console.log("Added successfully");
+  })
+  .then(showAnswers);
+  }
+)}
+
+
+ 
 
 //Being
 
