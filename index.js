@@ -61,6 +61,16 @@ function showAnswers() {
 }
 
 
+function showEmployee(){
+
+ connect.promise().query('SELECT * FROM employee')
+  .then(([rows,fields]) => {
+    console.table(rows);
+  })
+  .then(showAnswers);
+  
+}
+
 
 
  
