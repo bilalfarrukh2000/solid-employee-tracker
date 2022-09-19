@@ -16,3 +16,18 @@ const connect = mysql.createConnection(
   console.log(`employee_db database is active.`)
 );
 
+const menu=[
+  {
+    type: 'list',
+    name: 'options',
+    message: "Select an option?",
+    choices: ['View All Employees',
+  'Add Employee',
+  'Update Employee Role',
+  'View All roles',
+  'Add Role',
+  'View All Departments',
+  'Add Department',
+  'Exit']
+  },
+];
