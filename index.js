@@ -31,3 +31,40 @@ const menu=[
   'Exit']
   },
 ];
+
+function showAnswers() {
+
+  return inquirer.prompt(menu).then((answers) => {
+
+    
+
+   idx=menu[0].choices.indexOf(answers.options);
+   
+   if (idx==0)
+    showEmployee();
+   else if (idx==1)
+    addEmployee();
+   else if (idx==2)
+    employeeUpdate();
+   else if (idx==3)
+    showroles();
+   else if (idx==4)
+    addRole();
+   else if(idx==5)
+    showDepartment()
+   else if (idx==6)
+    addDepartment();
+   else
+    return;
+
+ });
+}
+
+
+
+
+ 
+
+//Being
+
+showAnswers();
