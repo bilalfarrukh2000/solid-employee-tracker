@@ -129,6 +129,66 @@ function addRole(){
         })
   
 }
+function employeeUpdate () {
+    var roles=[];
+    var employeeNames=[];
+    var employeeId=[];
+    var qUpdateEmployee=[];
+  
+    var newRoleID;
+    var employeeIdx;
+  
+   connect.promise().query("SELECT title FROM role")
+      .then(([result,fields])=> {
+        for (var i=0;i<result.length;i++){
+          roles.push(result[i].title);
+          }
+        return roles;
+        })
+   connect.promise().query("SELECT first_name, last_name, role_id FROM employee")
+      .then(([result,fields])=> {
+          for (var i=0;i<result.length;i++){
+          employeeId.push(result[i].role_id);
+          employeeNames.push(result[i].first_name+" "+result[i].last_name);
+          }
+        return employeeNames;
+      })
+      .then( () => {
+      qUpdateEmployee=[
+        {
+          type: 'list',
+          name: 'selectEmployee',
+          message: "Which Employee do you want to update?",
+          choices: employeeNames
+        },
+        {
+          type: 'list',
+          name: 'newRole',
+          message: "Enter the new role of the employee",
+          choices: roles
+        },
+      ];
+      return (qUpdateEmployee);
+     })
+  
+     .then ( ()=>{
+  
+        
+        inquirer.prompt(qUpdateEmployee).then((answers) => {
+          newRoleID=roles.indexOf(answers.newRole)+1;
+          employeeIdx=employeeNames.indexOf(answers.selectEmployee)+1;
+       connect.promise().query(`UPDATE employee SET role_id='${newRoleID}' WHERE id='${employeeIdx}'`)
+          .then(([rows,fields]) => {
+            console.log("Added successfully");
+          })
+            .then(showAnswers);
+  
+        })
+  
+      })
+   
+      
+  }
 
 
 //Being
