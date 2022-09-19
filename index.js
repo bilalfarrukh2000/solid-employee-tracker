@@ -92,10 +92,44 @@ function showroles(){
 }
 
 
+function addRole(){
+  var DEPARTMENTS=[];
+ connect.query("SELECT name FROM department", function (err, result) {
+    if (err) throw err;
 
+    for (var i=0;i<result.length;i++){
+    DEPARTMENTS.push(result[i].name);
+    }
+  });
+  const questionsAddRole=[
+    {
+      type: 'input',
+      name: 'roleName',
+      message: "Enter the name of the role",
+    },
+    {
+      type: 'input',
+      name: 'rolesalary',
+      message: "Enter the salary of the role",
+    },
+    {
+      type: 'list',
+      name: 'roleDept',
+      message: "Enter the department of the role",
+      choices: DEPARTMENTS
+    },
+  ];
 
+  return inquirer.prompt(questionsAddRole).then((answers) => {
+    connect.promise().query(`INSERT INTO role (title, salary, department_id) VALUES ('${answers.roleName}','${answers.rolesalary}','${DEPARTMENTS.indexOf(answers.roleDept)+1}')`)
+        .then(([rows,fields]) => {
+        console.log("Added successfully");
+        })
+        .then(showAnswers);
+        })
+  
+}
 
- 
 
 //Being
 
