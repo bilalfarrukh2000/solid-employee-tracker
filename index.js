@@ -71,6 +71,28 @@ function showEmployee(){
   
 }
 
+function showDepartment(){
+
+ connect.promise().query('SELECT * FROM department')
+    .then(([rows,fields]) => {
+      console.table(rows);
+    })
+    .then(showAnswers);
+    
+}
+
+function showroles(){
+
+ connect.promise().query('SELECT * FROM role')
+  .then(([rows,fields]) => {
+    console.table(rows);
+  })
+  .then(showAnswers);
+  
+}
+
+
+
 
 
  
